@@ -18,4 +18,8 @@
     <PackageReference Include="RestSharp" Version="107.3.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ReqResTestDemoApp\ReqResDemoApp.csproj" />
+  </ItemGroup>
+
 </Project>
