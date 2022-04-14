@@ -86,9 +86,14 @@ namespace ReqResTestDemoTests
             RestResponse UpdateUserResponse = call.UpdateUser(ID, new { name = UserName, job = Job });
             UpdatedUser user = call.ResponseClass(UpdateUserResponse);
 
+            //using a 10 second margin to compare between the update time
+            //and the time returned by the API in order to account for slight
+            //time differences between system clocks
+            var TimeDifference = Math.Abs((user.updatedAt - CurrentTime).TotalSeconds);
+
             Assert.AreEqual(UserName, user.name);
             Assert.AreEqual(Job, user.job);
-            Assert.Greater(user.updatedAt, CurrentTime);
+            Assert.Less(TimeDifference, 10);
         }
 
         //method seems to only work with predefined email address
