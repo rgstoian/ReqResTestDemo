@@ -1,7 +1,7 @@
 ﻿using RestSharp;
 
 
-namespace ReqResTestDemoApp
+namespace ReqResDemoAPI
 {
     public class APICalls
     {

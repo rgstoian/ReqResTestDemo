@@ -1,6 +1,6 @@
 using NUnit.Framework;
-using ReqResTestDemoApp;
-using ReqResTestDemoApp.Model;
+using ReqResDemoAPI;
+using ReqResDemoAPI.Model;
 using RestSharp;
 using System;
 

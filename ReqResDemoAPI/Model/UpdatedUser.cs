@@ -1,4 +1,4 @@
-﻿namespace ReqResTestDemoApp.Model
+﻿namespace ReqResDemoAPI.Model
 {
     public class UpdatedUser
     {

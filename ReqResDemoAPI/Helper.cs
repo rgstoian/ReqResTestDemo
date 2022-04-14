@@ -1,8 +1,8 @@
-﻿using ReqResTestDemoApp.Model;
+﻿using ReqResDemoAPI.Model;
 using RestSharp;
 using System.Text.Json;
 
-namespace ReqResTestDemoApp
+namespace ReqResDemoAPI
 {
     public class Helper<T> : APICalls
     {
