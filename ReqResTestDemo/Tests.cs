@@ -90,6 +90,7 @@ namespace ReqResTestDemoTests
             Assert.Greater(user.updatedAt, CurrentTime);
         }
 
+        //method seems to work only with hardcoded data
         [Test, Category("POST")]
         [TestCase("eve.holt@reqres.in", "pistol")]
         public void RegisterUser(string email, string password)
@@ -97,8 +98,8 @@ namespace ReqResTestDemoTests
             var call = new Helper<RegisteredUser>();
             RestResponse RegisteredUserResponse = call.RegisterUser(new { email = email, password= password });
             RegisteredUser user = call.ResponseClass(RegisteredUserResponse);
-            Assert.True(true);
-
+            Assert.AreEqual(user.id, 4);
+            Assert.AreEqual(user.token, "QpwL5tke4Pnpja7X4");
         }
 
     }
