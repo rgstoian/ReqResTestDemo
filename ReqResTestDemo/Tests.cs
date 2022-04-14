@@ -1,10 +1,7 @@
 using NUnit.Framework;
-using RestSharp;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Text.Json;
-using ReqResTestDemoApp.Model;
 using ReqResTestDemoApp;
+using ReqResTestDemoApp.Model;
+using RestSharp;
 using System;
 
 namespace ReqResTestDemoTests
@@ -17,6 +14,7 @@ namespace ReqResTestDemoTests
         public void GetSmokeTest()
         {
             var call = new APICalls();
+
             Assert.IsTrue(call.GetUserPage().IsSuccessful);
         }
 
@@ -25,6 +23,7 @@ namespace ReqResTestDemoTests
         {
             var call = new Helper<UsersPage>();
             UsersPage defaultUsersResponse = call.ResponseClass(call.GetUserPage());
+
             Assert.AreEqual(defaultUsersResponse.total, call.TotalUsers());
         }
 
@@ -50,6 +49,7 @@ namespace ReqResTestDemoTests
         public void InvalidUserID()
         {
             var call = new APICalls();
+
             Assert.AreEqual(call.GetSingleUser(999).StatusCode, System.Net.HttpStatusCode.NotFound);
         }
 
@@ -70,6 +70,7 @@ namespace ReqResTestDemoTests
         public void DeleteUser()
         {
             var call = new APICalls();
+
             Assert.IsTrue(call.DeleteUser(1).IsSuccessful);
         }
 
@@ -80,9 +81,9 @@ namespace ReqResTestDemoTests
         public void UpdateUser(int ID, string UserName, string Job)
         {
             DateTime CurrentTime = DateTime.UtcNow;
+
             var call = new Helper<UpdatedUser>();
             RestResponse UpdateUserResponse = call.UpdateUser(ID, new { name = UserName, job = Job });
-
             UpdatedUser user = call.ResponseClass(UpdateUserResponse);
 
             Assert.AreEqual(UserName, user.name);
@@ -90,7 +91,9 @@ namespace ReqResTestDemoTests
             Assert.Greater(user.updatedAt, CurrentTime);
         }
 
-        //method seems to work only with hardcoded data
+        //method seems to only work with predefined email address
+        //and returns the same token everytime
+        //any other email address causes the request to return a BadRequest error
         [Test, Category("POST")]
         [TestCase("eve.holt@reqres.in", "pistol")]
         public void RegisterUser(string email, string password)
@@ -98,9 +101,23 @@ namespace ReqResTestDemoTests
             var call = new Helper<RegisteredUser>();
             RestResponse RegisteredUserResponse = call.RegisterUser(new { email = email, password= password });
             RegisteredUser user = call.ResponseClass(RegisteredUserResponse);
+
             Assert.AreEqual(user.id, 4);
             Assert.AreEqual(user.token, "QpwL5tke4Pnpja7X4");
         }
 
+        //method seems to only work with predefined email address
+        //and returns the same token everytime
+        //any other email address causes the request to return a BadRequest error
+        [Test, Category("POST")]
+        [TestCase("eve.holt@reqres.in", "cityslicka")]
+        public void LoginUser(string email, string password)
+        {
+            var call = new Helper<LoggedInUser>();
+            RestResponse RegisteredUserResponse = call.LoginUser(new { email = email, password = password });
+            LoggedInUser user = call.ResponseClass(RegisteredUserResponse);
+
+            Assert.AreEqual(user.token, "QpwL5tke4Pnpja7X4");
+        }
     }
 }

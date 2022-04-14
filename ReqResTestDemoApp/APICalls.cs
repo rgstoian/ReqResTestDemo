@@ -1,10 +1,4 @@
 ﻿using RestSharp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Text.Json;
 
 
 namespace ReqResTestDemoApp
@@ -19,6 +13,7 @@ namespace ReqResTestDemoApp
 
         private string UsersEndpoint = "/api/users/";
         private string RegisterEndpoint = "/api/register";
+        private string LoginEndpoint = "/api/login";
 
         private const string BaseURL = "https://reqres.in/";
 
@@ -66,11 +61,19 @@ namespace ReqResTestDemoApp
 
         public RestResponse RegisterUser(object content)
         {
-            //restsharp doesn't like PostAsync here
             client = new RestClient(BaseURL);
-            request = new RestRequest(RegisterEndpoint, Method.Post);
+            request = new RestRequest(RegisterEndpoint);
             request.AddJsonBody(content);
-            response = client.ExecuteAsync(request).Result;
+            response = client.PostAsync(request).Result;
+            return response;
+        }
+
+        public RestResponse LoginUser(object content)
+        {
+            client = new RestClient(BaseURL);
+            request = new RestRequest(LoginEndpoint);
+            request.AddJsonBody(content);
+            response = client.PostAsync(request).Result;
             return response;
         }
 
