@@ -1,15 +1,10 @@
 ﻿using ReqResTestDemoApp.Model;
 using RestSharp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace ReqResTestDemoApp
 {
-    public class Helpers<T> : APICalls
+    public class Helper<T> : APICalls
     {
        public dynamic ResponseClass(RestResponse input)
         {

@@ -23,7 +23,7 @@ namespace ReqResTestDemoTests
         [Test, Category("GET")]
         public void CorrectNumberOfUsers()
         {
-            var call = new Helpers<UsersPage>();
+            var call = new Helper<UsersPage>();
             UsersPage defaultUsersResponse = call.ResponseClass(call.GetUserPage());
             Assert.AreEqual(defaultUsersResponse.total, call.TotalUsers());
         }
@@ -35,7 +35,7 @@ namespace ReqResTestDemoTests
 
         public void GetSingleUser(int id, string email, string firstname, string lastname, string avatar)
         {
-            var call = new Helpers<SingleUser>();
+            var call = new Helper<SingleUser>();
             SingleUser user = call.ResponseClass(call.GetSingleUser(id));
 
             Assert.IsNotNull(user);
@@ -58,7 +58,7 @@ namespace ReqResTestDemoTests
         [TestCase("Dan", "Developer")]
         public void UserCreation(string UserName, string Job)
         {
-            var call = new Helpers<CreatedUser>();
+            var call = new Helper<CreatedUser>();
             RestResponse CreateUserResponse = call.CreateUser(new { name = UserName, job = Job });
             CreatedUser user = call.ResponseClass(CreateUserResponse);
 
@@ -79,22 +79,26 @@ namespace ReqResTestDemoTests
         [TestCase(2, "Andy", "Analyst")]
         public void UpdateUser(int ID, string UserName, string Job)
         {
-            DateTime CurrentTime = DateTime.Now;
-            var call = new Helpers<UpdatedUser>();
+            DateTime CurrentTime = DateTime.UtcNow;
+            var call = new Helper<UpdatedUser>();
             RestResponse UpdateUserResponse = call.UpdateUser(ID, new { name = UserName, job = Job });
 
             UpdatedUser user = call.ResponseClass(UpdateUserResponse);
 
             Assert.AreEqual(UserName, user.name);
             Assert.AreEqual(Job, user.job);
-            Assert.Greater(CurrentTime, user.updatedAt);
+            Assert.Greater(user.updatedAt, CurrentTime);
         }
 
         [Test, Category("POST")]
-        [TestCase("a@a.com", "pass")]
-        [TestCase("b@b.com", "pass2")]
+        [TestCase("eve.holt@reqres.in", "pistol")]
         public void RegisterUser(string email, string password)
         {
+            var call = new Helper<RegisteredUser>();
+            RestResponse RegisteredUserResponse = call.RegisterUser(new { email = email, password= password });
+            RegisteredUser user = call.ResponseClass(RegisteredUserResponse);
+            Assert.True(true);
+
         }
 
     }

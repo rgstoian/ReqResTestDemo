@@ -18,6 +18,7 @@ namespace ReqResTestDemoApp
         private RestRequest request;
 
         private string UsersEndpoint = "/api/users/";
+        private string RegisterEndpoint = "/api/register";
 
         private const string BaseURL = "https://reqres.in/";
 
@@ -59,7 +60,17 @@ namespace ReqResTestDemoApp
             client = new RestClient(BaseURL);
             request = new RestRequest(UsersEndpoint+id.ToString());
             request.AddJsonBody(content);
-            response = client.PostAsync(request).Result;
+            response = client.PutAsync(request).Result;
+            return response;
+        }
+
+        public RestResponse RegisterUser(object content)
+        {
+            //restsharp doesn't like PostAsync here
+            client = new RestClient(BaseURL);
+            request = new RestRequest(RegisterEndpoint, Method.Post);
+            request.AddJsonBody(content);
+            response = client.ExecuteAsync(request).Result;
             return response;
         }
 
